@@ -42,18 +42,18 @@ public class FunctionalRobot {
         double intakePower = 0;
         boolean reverseState = false;
 
-        if (gamepad.touchpad){
-            reverseState = !reverseState;
+        if (gamepad.dpad_up){
+            reverseState = true;
+        } else if (gamepad.dpad_down){
+            reverseState = false;
         }
 
-        if (reverseState){
+        if (reverseState == true){
             left = -gamepad.left_stick_y;
             right = -gamepad.right_stick_y;
-            reverseState = true;
-        } else {
+        } else if (reverseState == false) {
             left = gamepad.left_stick_y;
             right = gamepad.right_stick_y;
-            reverseState = false;
         }
 
 //        if (gamepad.left_bumper){
