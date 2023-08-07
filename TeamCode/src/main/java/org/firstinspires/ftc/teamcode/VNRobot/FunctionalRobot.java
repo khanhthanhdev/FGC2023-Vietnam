@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.VNRobot;
 
+import com.arcrobotics.ftclib.gamepad.ButtonReader;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.KeyReader;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -40,21 +44,23 @@ public class FunctionalRobot {
         double left = gamepad.left_stick_y;
         double right = gamepad.right_stick_y;
         double intakePower = 0;
-        boolean reverseState = false;
+        boolean TouchpadPressed = false;
+        boolean driveOn = false;
 
-        if (gamepad.dpad_up){
-            reverseState = true;
-        } else if (gamepad.dpad_down){
-            reverseState = false;
+        if (gamepad.touchpad){
+            driveOn = !driveOn;
+            telemetry.addData("Drive Reverse", driveOn);
+
+            if (driveOn){
+                left = gamepad.left_stick_y;
+                right = gamepad.right_stick_y;
+            }
+            else {
+                left = -gamepad.left_stick_y;;
+                right = -gamepad.right_stick_y;
+            }
         }
 
-        if (reverseState == true){
-            left = -gamepad.left_stick_y;
-            right = -gamepad.right_stick_y;
-        } else if (reverseState == false) {
-            left = gamepad.left_stick_y;
-            right = gamepad.right_stick_y;
-        }
 
 //        if (gamepad.left_bumper){
 //                left = left;
@@ -65,7 +71,13 @@ public class FunctionalRobot {
 //                right = -right;
 //        }
 
+        GamepadEx gamepadEx = new GamepadEx(gamepad);
 
+        ButtonReader reverse = new ButtonReader(
+                gamepadEx, GamepadKeys.Button.DPAD_UP
+        );
+
+        reverse.wasJustPressed();
 
 
         if (gamepad.triangle){

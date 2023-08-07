@@ -31,16 +31,27 @@ public class Drivebase {
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
+        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
 
     }
 
     public void setMotorPower(double left, double right){
-        leftFront.setPower(left);
-        leftBack.setPower(left);
-        rightFront.setPower(right);
-        rightBack.setPower(right);
+        double largest = 1.0;
+
+        largest = Math.max(largest, Math.abs(left));
+        largest = Math.max(largest, Math.abs(right));
+
+        leftFront.setPower(left/largest);
+        leftBack.setPower(left/largest);
+        rightFront.setPower(right/largest);
+        rightBack.setPower(right/largest);
 
     }
 
