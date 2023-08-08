@@ -32,8 +32,7 @@ public class FunctionalRobot {
         telemetry = opMode.telemetry;
         gamepad = opMode.gamepad1;
     }
-
-    public void init(){
+   public void init(){
 //        imu.init();
         drivebase.init();
 //        intake.init();
@@ -44,40 +43,21 @@ public class FunctionalRobot {
         double left = gamepad.left_stick_y;
         double right = gamepad.right_stick_y;
         double intakePower = 0;
-        boolean TouchpadPressed = false;
-        boolean driveOn = false;
+        boolean reverseState = false;
 
-        if (gamepad.touchpad){
-            driveOn = !driveOn;
-            telemetry.addData("Drive Reverse", driveOn);
+        Gamepad currentGamepad1 = new Gamepad();
+        Gamepad previousGamepad1 = new Gamepad();
 
-            if (driveOn){
-                left = gamepad.left_stick_y;
-                right = gamepad.right_stick_y;
-            }
-            else {
-                left = -gamepad.left_stick_y;;
-                right = -gamepad.right_stick_y;
-            }
+        previousGamepad1.copy(currentGamepad1);
+        currentGamepad1.copy(gamepad);
+        if (currentGamepad1.touchpad && !previousGamepad1.touchpad){
+            reverseState = !reverseState;
         }
 
-
-//        if (gamepad.left_bumper){
-//                left = left;
-//                right = right;
-//
-//        }else if (gamepad.right_bumper){
-//                left = -left;
-//                right = -right;
-//        }
-
-        GamepadEx gamepadEx = new GamepadEx(gamepad);
-
-        ButtonReader reverse = new ButtonReader(
-                gamepadEx, GamepadKeys.Button.DPAD_UP
-        );
-
-        reverse.wasJustPressed();
+        if (reverseState){
+            gamepad.left_stick_y = -gamepad.left_stick_y;
+            gamepad.right_stick_y = -gamepad.right_stick_y;
+        }
 
 
         if (gamepad.triangle){

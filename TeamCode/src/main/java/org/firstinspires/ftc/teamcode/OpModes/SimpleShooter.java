@@ -18,7 +18,7 @@ public class SimpleShooter extends LinearOpMode {
     double Kp = 0;
     double Ki = 0;
     double Kd = 0;
-    double Kf = 10;
+    double Kf = 1;
 
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
@@ -26,14 +26,14 @@ public class SimpleShooter extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        shooter = hardwareMap.get(DcMotorEx.class, "leftMotor");
+        shooter = hardwareMap.get(DcMotorEx.class, "leftFront");
 
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         waitForStart();
         while (opModeIsActive()) {
-            double shooterPower = PIDControl(1000, shooter.getCurrentPosition());
+            double shooterPower = PIDControl(1000, shooter.getVelocity());
             shooter.setPower(shooterPower);
         }
     }
