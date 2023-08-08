@@ -31,12 +31,17 @@ public class FunctionalRobot {
 
         telemetry = opMode.telemetry;
         gamepad = opMode.gamepad1;
+
+
     }
    public void init(){
 //        imu.init();
         drivebase.init();
 //        intake.init();
 //        shooter.init();
+       boolean reverseState = false;
+       Gamepad currentGamepad1 = new Gamepad();
+       Gamepad previousGamepad1 = new Gamepad();
     }
 
     public void runOpMode(){
@@ -52,7 +57,7 @@ public class FunctionalRobot {
         }
 
         if (reverseState){
-            drivebase.setMotorPower(-left,-right);
+            drivebase.setMotorPower(-right,-left);
         } else {
             drivebase.setMotorPower(left, right);
         }
