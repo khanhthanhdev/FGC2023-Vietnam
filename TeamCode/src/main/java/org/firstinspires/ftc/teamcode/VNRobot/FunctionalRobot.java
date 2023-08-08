@@ -40,23 +40,21 @@ public class FunctionalRobot {
     }
 
     public void runOpMode(){
-        double left = gamepad.left_stick_y;
-        double right = gamepad.right_stick_y;
-        double intakePower = 0;
+        double left = -gamepad.left_stick_y;
+        double right = -gamepad.right_stick_y;
         boolean reverseState = false;
-
         Gamepad currentGamepad1 = new Gamepad();
         Gamepad previousGamepad1 = new Gamepad();
 
-        previousGamepad1.copy(currentGamepad1);
-        currentGamepad1.copy(gamepad);
+        double intakePower = 0;
         if (currentGamepad1.touchpad && !previousGamepad1.touchpad){
             reverseState = !reverseState;
         }
 
         if (reverseState){
-            gamepad.left_stick_y = -gamepad.left_stick_y;
-            gamepad.right_stick_y = -gamepad.right_stick_y;
+            drivebase.setMotorPower(-left,-right);
+        } else {
+            drivebase.setMotorPower(left, right);
         }
 
 
@@ -78,7 +76,6 @@ public class FunctionalRobot {
         }
 
 
-        drivebase.setMotorPower(left,right);
 //        intake.setMotorPower(intakePower);
 
         telemetry.addData("Shooter is calibrating", shooterState);
