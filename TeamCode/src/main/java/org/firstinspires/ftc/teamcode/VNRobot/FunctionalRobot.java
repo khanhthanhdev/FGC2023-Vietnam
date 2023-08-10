@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.Camera360;
 import org.firstinspires.ftc.teamcode.Subsystems.Drivebase;
+import org.firstinspires.ftc.teamcode.Subsystems.Grab;
 import org.firstinspires.ftc.teamcode.Subsystems.HorizontalServo;
 import org.firstinspires.ftc.teamcode.Subsystems.IMU;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
@@ -29,6 +30,9 @@ public class FunctionalRobot {
     private HorizontalServo horizontalServo;
     private VerticalServo verticalServo;
 
+    private Grab grabLeft;
+    private Grab grabRight;
+
     Gamepad currentGamepad1 = new Gamepad();
     Gamepad currentGamepad2 = new Gamepad();
 
@@ -44,6 +48,8 @@ public class FunctionalRobot {
 
         horizontalServo = new HorizontalServo(opMode);
         verticalServo = new VerticalServo(opMode);
+        grabLeft = new Grab(opMode);
+        grabRight = new Grab(opMode);
 
         telemetry = opMode.telemetry;
         gamepad1 = opMode.gamepad1;
@@ -57,6 +63,8 @@ public class FunctionalRobot {
 //        shooter.init();
         horizontalServo.init();
         verticalServo.init();
+        grabLeft.init();
+        grabRight.init();
     }
 
     public void loop(){
@@ -70,9 +78,11 @@ public class FunctionalRobot {
         double left = -gamepad1.left_stick_y;
         double right = -gamepad1.right_stick_y;
         boolean reverseState = false;
-
+        boolean intakeToggle = false;
         double intakePower = 0;
 
+
+        // Camera 360o
 
         if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up){
             verticalServo.setVerticalPos(0.1);
@@ -86,14 +96,53 @@ public class FunctionalRobot {
             horizontalServo.setHorizontalPos(-0.1);
         }
 
+        // Reverse drivebase
 
-        if (gamepad1.triangle){
+        if(currentGamepad1.touchpad && !previousGamepad1.touchpad) {
+            reverseState = !reverseState;
+        }
+
+        if(reverseState){
+            drivebase.setMotorPower(-left,-right);
+        } else {
+            drivebase.setMotorPower(left,right);
+        }
+
+
+        if (currentGamepad1.triangle && !previousGamepad1.triangle){
+            intakeToggle = !intakeToggle;
+        }
+        if(intakeToggle){
             intakePower = 1;
-        } else if (gamepad1.cross){
+        } else {
+            intakePower = 0;
+        }
+
+        if (currentGamepad1.cross && !previousGamepad1.cross){
+            intakeToggle = !intakeToggle;
+        }
+        if(intakeToggle){
             intakePower = -1;
         } else {
             intakePower = 0;
         }
+
+        if (currentGamepad1.left_bumper && !previousGamepad1.left_bumper){
+            grabLeft.grabPos(0.2);
+            grabRight.grabPos(0.2);
+        } else if (!currentGamepad1.right_bumper && previousGamepad1.right_bumper){
+            grabLeft.grabPos(-0.2);
+            grabRight.grabPos(-0.2);
+        }
+
+
+//        if (gamepad1.triangle){
+//            intakePower = 1;
+//        } else if (gamepad1.cross){
+//            intakePower = -1;
+//        } else {
+//            intakePower = 0;
+//        }
 
 
         if (gamepad1.square){

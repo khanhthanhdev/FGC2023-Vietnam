@@ -12,6 +12,8 @@ public class Functional extends OpMode {
     private FunctionalRobot robot;
     private Servo horizontal;
     private Servo vertical;
+
+
     Gamepad currentGamepad1 = new Gamepad();
     Gamepad currentGamepad2 = new Gamepad();
 
@@ -44,6 +46,7 @@ public class Functional extends OpMode {
         } else if (!currentGamepad1.dpad_left && previousGamepad1.dpad_left){
             horizontal.setPosition(horizontal.getPosition()-0.1);
         }
+
         robot.runOpMode();
     }
 }
