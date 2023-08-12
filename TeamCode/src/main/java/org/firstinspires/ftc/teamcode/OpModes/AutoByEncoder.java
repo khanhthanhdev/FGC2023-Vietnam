@@ -166,8 +166,8 @@ public class AutoByEncoder extends LinearOpMode {
 
             // reset the timeout time and start motion.
             runtime.reset();
-            leftFront.setPower(Math.abs(speed));
-            rightFront.setPower(Math.abs(speed));
+            leftFront.setPower(Math.abs(speed)*95/100);
+            rightFront.setPower(Math.abs(speed)*95/100);
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits

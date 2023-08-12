@@ -152,7 +152,7 @@ public class FunctionalRobot {
             shooterState = false;
         }
 
-//        drivebase.setMotorPower(left,right);
+        drivebase.setMotorPower(left,right);
 //        intake.setMotorPower(intakePower);
 
         telemetry.addData("Shooter is calibrating", shooterState);
