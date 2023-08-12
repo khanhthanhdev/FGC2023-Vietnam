@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.VNRobot;
 
-import com.arcrobotics.ftclib.gamepad.ButtonReader;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.gamepad.KeyReader;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -38,7 +35,9 @@ public class FunctionalRobot {
 
     Gamepad previousGamepad1 = new Gamepad();
     Gamepad previousGamepad2 = new Gamepad();
-    private  boolean shooterState = false;
+    boolean shooterState = false;
+    boolean reverseState = false;
+    boolean intakeToggle = false;
 
     public FunctionalRobot (OpMode opMode){
 //        imu = new IMU(opMode);
@@ -77,8 +76,6 @@ public class FunctionalRobot {
     public void runOpMode(){
         double left = -gamepad1.left_stick_y;
         double right = -gamepad1.right_stick_y;
-        boolean reverseState = false;
-        boolean intakeToggle = false;
         double intakePower = 0;
 
 
@@ -107,6 +104,8 @@ public class FunctionalRobot {
         } else {
             drivebase.setMotorPower(left,right);
         }
+
+
 
 
         if (currentGamepad1.triangle && !previousGamepad1.triangle){
@@ -153,7 +152,7 @@ public class FunctionalRobot {
             shooterState = false;
         }
 
-        drivebase.setMotorPower(left,right);
+//        drivebase.setMotorPower(left,right);
 //        intake.setMotorPower(intakePower);
 
         telemetry.addData("Shooter is calibrating", shooterState);

@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.arcrobotics.ftclib.geometry.Pose2d;
+import com.arcrobotics.ftclib.geometry.Rotation2d;
+import com.arcrobotics.ftclib.kinematics.wpilibkinematics.DifferentialDriveOdometry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -14,9 +17,6 @@ public class Functional extends OpMode {
     private Servo horizontal;
     private Servo vertical;
 
-    private Drivebase drivebase;
-
-
     Gamepad currentGamepad1 = new Gamepad();
     Gamepad currentGamepad2 = new Gamepad();
 
@@ -26,8 +26,6 @@ public class Functional extends OpMode {
     boolean reverseState = false;
     boolean intakeToggle = false;
     double intakePower = 0;
-    double left = -gamepad1.left_stick_y;
-    double right = -gamepad1.right_stick_y;
 
 
     @Override
@@ -38,7 +36,7 @@ public class Functional extends OpMode {
         robot.init();
 
     }
-
+//
     @Override
     public void loop(){
         previousGamepad1.copy(currentGamepad1);
@@ -46,6 +44,7 @@ public class Functional extends OpMode {
 
         currentGamepad1.copy(gamepad1);
         currentGamepad2.copy(gamepad2);
+
 
         if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up){
             vertical.setPosition(vertical.getPosition()+0.1);
@@ -63,11 +62,6 @@ public class Functional extends OpMode {
             reverseState = !reverseState;
         }
 
-        if(reverseState){
-            drivebase.setMotorPower(-right, -left);
-        } else {
-            drivebase.setMotorPower(left,right);
-        }
 
 
         if (currentGamepad1.triangle && !previousGamepad1.triangle){
