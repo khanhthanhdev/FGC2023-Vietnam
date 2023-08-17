@@ -21,15 +21,14 @@ public class Shooter {
 
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         shooter.setDirection(DcMotorSimple.Direction.FORWARD);
-        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void shoot(double angularRate) {
-        shooter.setVelocity(angularRate, AngleUnit.RADIANS);
+    public void shoot(double power) {
+        shooter.setPower(power);
     }
 
-    public double getVelocity() {
-        return shooter.getVelocity(AngleUnit.RADIANS);
+    public double getMotorPower(){
+        return shooter.getPower();
     }
 
 }

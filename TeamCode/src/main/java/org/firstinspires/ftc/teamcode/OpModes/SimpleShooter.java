@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -26,8 +27,8 @@ public class SimpleShooter extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        shooter = hardwareMap.get(DcMotorEx.class, "leftFront");
-
+        shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
@@ -49,8 +50,11 @@ public class SimpleShooter extends LinearOpMode {
         timer.reset();
 
         double output = (error * Kp) + (derivative * Kd) + (integralSum * Ki) + (reference * Kf);
+        telemetry.addData("Pos", state);
+        telemetry.addData("Target", reference);
+        telemetry.addData("Error", error);
+        telemetry.update();
         return output;
     }
 
 }
-

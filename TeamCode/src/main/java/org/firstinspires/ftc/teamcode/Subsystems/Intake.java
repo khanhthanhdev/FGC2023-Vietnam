@@ -24,4 +24,6 @@ public class Intake {
     public void setMotorPower(double speed){
         intake.setPower(speed);
     }
+
+    public double getMotorPower(){return intake.getPower();}
 }

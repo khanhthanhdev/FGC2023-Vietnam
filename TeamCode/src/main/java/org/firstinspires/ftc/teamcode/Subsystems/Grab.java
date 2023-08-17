@@ -18,8 +18,8 @@ public class Grab {
         grabRight = hardwareMap.get(Servo.class, "grabRight");
     }
 
-    public void grabPos(double increase){
-        grabLeft.setPosition(grabLeft.getPosition()+increase);
-        grabRight.setPosition(grabRight.getPosition()-increase);
+    public void grabPos(double pos){
+        grabLeft.setPosition(pos);
+        grabRight.setPosition(pos);
     }
 }
