@@ -231,6 +231,8 @@ public class Robot {
         drivebase.setMotorPower(rightDrB, leftDrB);
         shooter.shoot(stV);
 
+        webcam.cameraStream();
+
         telemetry.addData("Test mode", testMode);
         telemetry.addData("Shooter velocity", shooter.getVelocity());
         telemetry.addData("Shooter Power", shooter.getMotorPower());
