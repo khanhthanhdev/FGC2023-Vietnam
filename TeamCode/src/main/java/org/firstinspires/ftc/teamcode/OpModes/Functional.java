@@ -28,6 +28,6 @@ public class Functional extends OpMode {
     public void loop(){
 //
 
-        robot.runOpMode();
+        robot.loop();
     }
 }

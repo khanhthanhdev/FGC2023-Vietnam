@@ -19,7 +19,7 @@ public class Grab {
     }
 
     public void grabPos(double pos){
-        grabLeft.setPosition(pos);
+        grabLeft.setPosition(-pos);
         grabRight.setPosition(pos);
     }
 }

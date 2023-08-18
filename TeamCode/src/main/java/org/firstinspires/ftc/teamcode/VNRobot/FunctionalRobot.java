@@ -7,15 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Subsystems.Camera360;
 import org.firstinspires.ftc.teamcode.Subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.Subsystems.Grab;
-import org.firstinspires.ftc.teamcode.Subsystems.HorizontalServo;
-import org.firstinspires.ftc.teamcode.Subsystems.IMU;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.LoaderGate;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
-import org.firstinspires.ftc.teamcode.Subsystems.VerticalServo;
 
 public class FunctionalRobot {
 
@@ -73,27 +69,14 @@ public class FunctionalRobot {
         grabRight.init();
     }
 
-    public void runOpMode(){
+    public void loop(){
         double left = -gamepad1.left_stick_y;
         double right = -gamepad1.right_stick_y;
         boolean gateButton = gamepad2.cross;
-        boolean grabButton = gamepad2.triangle;
+        boolean grabButton = gamepad1.dpad_down;
         double intakePower = 0;
 
 
-        // Camera 360o
-
-//        if (currentGamepad1.dpad_up && !previousGamepad1.dpad_up){
-//            verticalServo.setVerticalPos(0.1);
-//        } else if (!currentGamepad1.dpad_down && previousGamepad1.dpad_down){
-//            verticalServo.setVerticalPos(-0.1);
-//        }
-//
-//        if(currentGamepad1.dpad_right && !previousGamepad1.dpad_right){
-//            horizontalServo.setHorizontalPos(0.1);
-//        } else if (!currentGamepad1.dpad_left && previousGamepad1.dpad_left){
-//            horizontalServo.setHorizontalPos(-0.1);
-//        }
 
         // Reverse drivebase
 
@@ -125,23 +108,16 @@ public class FunctionalRobot {
         oldGrabPosition = grabButton;
 
 
-        if(currentGamepad1.touchpad && !previousGamepad1.touchpad) {
-            reverseState = !reverseState;
-        }
 
-        if(reverseState){
-
-            drivebase.setMotorPower(-right,-left);
-        }
-
-        if (gamepad1.left_stick_y > 0.6 && gamepad1.right_stick_y > 0.6){
-            drivebase.setMotorPower(0.6, 0.6);
+        if (gamepad1.left_stick_y > 0.6 || gamepad1.right_stick_y > 0.6){
+            if (gamepad1.left_stick_y >0.6){
+                drivebase.setMotorPower(0.6,right);
+            }
         } else if (gamepad1.left_stick_y < -0.6 && gamepad1.right_stick_y < -0.6){
             drivebase.setMotorPower(-0.6, -0.6);
-        } else if ((gamepad1.left_stick_y <= 0.6 || gamepad1.left_stick_y >= -0.6) &&(gamepad1.right_stick_y <= 0.6 || gamepad1.right_stick_y >= -0.6)){
-            drivebase.setMotorPower(left,right);
+        } else {
+            drivebase.setAllMotorPower(0);
         }
-
 
 
         boolean intakeState = false;
@@ -181,7 +157,7 @@ public class FunctionalRobot {
         intake.setMotorPower(intakePower);
 
         telemetry.addData("Shooter is calibrating", shooterState);
-        telemetry.addData("Shooter Power", shooter.getMotorPower());
+        telemetry.addData("Shooter Power", shooter.getVelocity());
         telemetry.addData("Gate Pos", gatePosition);
         telemetry.addData("Intake State", intakeToggle);
         telemetry.addData("Left Power", left);
