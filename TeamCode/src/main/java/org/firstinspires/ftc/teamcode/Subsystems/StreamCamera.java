@@ -13,13 +13,13 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 
 public class StreamCamera {
 
     private HardwareMap hardwareMap;
-    OpenCvCamera camera;
-
+    OpenCvWebcam webcam;
     public StreamCamera(OpMode opMode) {
         hardwareMap = opMode.hardwareMap;
     }
@@ -28,7 +28,8 @@ public class StreamCamera {
     public void init(){
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
     }
 
     public class SimplePipeline extends OpenCvPipeline {
@@ -39,9 +40,21 @@ public class StreamCamera {
         }
     }
     public void cameraStream(){
-        FtcDashboard.getInstance().startCameraStream(camera, 60);
-        camera.setPipeline(new SimplePipeline());
-        camera.startStreaming(320,240);
+        FtcDashboard.getInstance().startCameraStream(webcam, 60);
+        webcam.setPipeline(new SimplePipeline());
+
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                webcam.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
+            }
+            
+            @Override
+            public void onError(int errorCode) {}
+        });
+
 
     }
 

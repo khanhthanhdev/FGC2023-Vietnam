@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.LoaderGate;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.StreamCamera;
 import org.firstinspires.ftc.teamcode.utils.ProjectileCalculator;
-import org.openftc.easyopencv.OpenCvWebcam;
+
 
 
 import static org.firstinspires.ftc.teamcode.Constants.PROJECTILE_MOTION.*;
