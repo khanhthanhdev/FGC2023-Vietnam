@@ -11,8 +11,9 @@ import org.firstinspires.ftc.teamcode.Subsystems.Grab;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Loader;
 import org.firstinspires.ftc.teamcode.Subsystems.LoaderGate;
+import org.firstinspires.ftc.teamcode.Subsystems.OxyCascade;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
-import org.firstinspires.ftc.teamcode.Subsystems.StreamCamera;
+import org.firstinspires.ftc.teamcode.Subsystems.WrapBall;
 import org.firstinspires.ftc.teamcode.utils.ProjectileCalculator;
 
 
@@ -32,8 +33,9 @@ public class Robot {
     private Grab grab;
     private LoaderGate loaderGate;
     private Loader loader;
+    private WrapBall wrapBall;
+    private OxyCascade oxyCascade;
 
-    private StreamCamera webcam;
 
     private  boolean testMode = false;
     private boolean autoRotateMode = false;
@@ -55,7 +57,8 @@ public class Robot {
         grab = new Grab(opMode);
         loaderGate = new LoaderGate(opMode);
         loader = new Loader(opMode);
-        webcam = new StreamCamera(opMode);
+        wrapBall = new WrapBall(opMode);
+        oxyCascade = new OxyCascade(opMode);
 
         gamepad1 = opMode.gamepad1;
         gamepad2 = opMode.gamepad2;
@@ -69,7 +72,8 @@ public class Robot {
         grab.init();
         loaderGate.init();
         loader.init();
-        webcam.init();
+        wrapBall.init();
+        oxyCascade.init();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -78,10 +82,12 @@ public class Robot {
 
     public void loop(){
 
-        double ikV = 0;
-        double ldV = 0;
-        double stV = 0;
-        double clbV = 0;
+        double ikV = 0; // intake
+        double wrV = 0; // wrap
+        double olV = 0; // lift up oxi storage
+        double ldV = 0; // loader
+        double stV = 0; // shooter
+        double clbV = 0; // climber
         double MAX_SPEED = NORMAL_DrB;
         double leftDrB = 0;
         double rightDrB = 0;
@@ -170,19 +176,6 @@ public class Robot {
                 stV = 0;
             }
 
-            // Run the hood
-//            if(gamepad2.cross) {
-//                hdV = HOOD;
-//                // Manual mode
-//                if(gamepad2.left_bumper) {
-//                    hdV = -hdV;
-//                }
-//                // Auto mode
-//                else if(gamepad2.right_bumper) {
-//                    hdAutoMode = true;
-//                }
-//            }
-
             if(gamepad1.left_bumper) {
                 ikV = -ikV;
             }
@@ -194,6 +187,8 @@ public class Robot {
             }
         }
 
+
+        // Open Gate for the ball go to shooter
         if (gateButton && !oldGatePosition){
             if (gatePosition == 0){
                 loaderGate.OpenGate(0.7);
@@ -207,6 +202,8 @@ public class Robot {
         oldGatePosition = gateButton;
 
 
+
+        // Hold Hidro tank
         if (grabButton && !oldGrabPosition){
             if (grabPosition == 0){
                 grab.grabPos(0.7);
@@ -219,10 +216,27 @@ public class Robot {
 
         oldGrabPosition = grabButton;
 
+
+        // Load ball to shooter
         if (gamepad2.dpad_up){
             ldV = LOADER;
-        } else if (gamepad1.dpad_down){
+        } else if (gamepad2.dpad_down){
             ldV = -LOADER;
+        }
+
+        // Wrap ball in storage
+        if (gamepad2.dpad_right){
+            wrV = WRAP;
+        } else if (gamepad2.dpad_left) {
+            wrV = -WRAP;
+        }
+
+
+        // Lift up O2 storage to accumulator
+        if (gamepad2.right_bumper){
+            olV = OXYLIFT;
+        } else if (gamepad2.left_bumper) {
+            olV = -OXYLIFT;
         }
 
 
@@ -230,8 +244,9 @@ public class Robot {
         loader.load(ldV);
         drivebase.setMotorPower(rightDrB, leftDrB);
         shooter.shoot(stV);
+        wrapBall.wrapSpped(wrV);
+        oxyCascade.OxyLiftUp(olV);
 
-        webcam.cameraStream();
 
         telemetry.addData("Test mode", testMode);
         telemetry.addData("Shooter velocity", shooter.getVelocity());

@@ -84,6 +84,8 @@ public final class Constants {
         public static final double INTAKE = -1;
         public static final double HOOD = 1;
         public static final double LOADER = -1;
+        public static final double WRAP = -1;
+        public static final double OXYLIFT = -1;
         public static final double SHOOTER = 0.5;
         public static final double CLIMBER = 1;
         public static final double BOOST_DrB = 1;
