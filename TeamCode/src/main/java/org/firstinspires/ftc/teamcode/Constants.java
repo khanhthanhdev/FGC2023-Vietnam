@@ -8,33 +8,33 @@ package org.firstinspires.ftc.teamcode;
 
 public final class Constants {
     // The values in odometry calculation
-//    public static final class ODOMETRY {
-//        public static final double INIT_X = 0;
-//        public static final double INIT_Y = 0;
-//        public static final double INIT_THETA = 0;
-//
-//        public static final double ROBOT_WIDTH = 0.45 * 39.3701;
-//        public static final double ROBOT_LENGTH = 0.48 * 39.3701;
-//        public static final double ARROW_LENGTH = 2;
-//
-//        // lf, lb, rf, rb, tracking arrow
-//        public static final double[] ANGLE_DIRECTIONS =
-//                {
-//                        Math.atan2(ROBOT_WIDTH, ROBOT_LENGTH),
-//                        Math.atan2(ROBOT_WIDTH, ROBOT_LENGTH) + Math.PI / 2,
-//                        -Math.atan2(ROBOT_WIDTH, ROBOT_LENGTH),
-//                        -(Math.atan2(ROBOT_WIDTH, ROBOT_LENGTH) + Math.PI / 2),
-//                        0
-//                };
-//        public static final double[] WHEEL_TRANSITIONS =
-//                {
-//                        Math.hypot(ROBOT_WIDTH / 2, ROBOT_LENGTH / 2),
-//                        Math.hypot(ROBOT_WIDTH / 2, ROBOT_LENGTH / 2),
-//                        Math.hypot(ROBOT_WIDTH / 2, ROBOT_LENGTH / 2),
-//                        Math.hypot(ROBOT_WIDTH / 2, ROBOT_LENGTH / 2),
-//                        ARROW_LENGTH
-//                };
-//    }
+    public static final class ODOMETRY {
+        public static final double INIT_X = 0;
+        public static final double INIT_Y = 0;
+        public static final double INIT_THETA = 0;
+
+        public static final double ROBOT_WIDTH = 0.45 * 39.3701;
+        public static final double ROBOT_LENGTH = 0.48 * 39.3701;
+        public static final double ARROW_LENGTH = 2;
+
+        // lf, lb, rf, rb, tracking arrow
+        public static final double[] ANGLE_DIRECTIONS =
+                {
+                        Math.atan2(ROBOT_WIDTH, ROBOT_LENGTH),
+                        Math.atan2(ROBOT_WIDTH, ROBOT_LENGTH) + Math.PI / 2,
+                        -Math.atan2(ROBOT_WIDTH, ROBOT_LENGTH),
+                        -(Math.atan2(ROBOT_WIDTH, ROBOT_LENGTH) + Math.PI / 2),
+                        0
+                };
+        public static final double[] WHEEL_TRANSITIONS =
+                {
+                        Math.hypot(ROBOT_WIDTH / 2, ROBOT_LENGTH / 2),
+                        Math.hypot(ROBOT_WIDTH / 2, ROBOT_LENGTH / 2),
+                        Math.hypot(ROBOT_WIDTH / 2, ROBOT_LENGTH / 2),
+                        Math.hypot(ROBOT_WIDTH / 2, ROBOT_LENGTH / 2),
+                        ARROW_LENGTH
+                };
+    }
 
     // The PID constants of shooter's program
     public static final class SHOOT {

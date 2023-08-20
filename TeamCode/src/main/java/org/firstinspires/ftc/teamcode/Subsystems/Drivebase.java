@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 
-
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import static org.firstinspires.ftc.teamcode.Constants.ROTATION.*;
 
 
 //@TeleOp (name="SixWheel")
@@ -19,11 +20,11 @@ public class Drivebase {
     private DcMotor rightBack;
     BNO055IMU imu;
     private final HardwareMap hardwareMap;
-
-    public Drivebase(OpMode opMode){
+    private final PIDController controller;
+    public Drivebase(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
+        this.controller = new PIDController(ROTATE_KP, ROTATE_KI, ROTATE_KD);
     }
-
 
     public void init(){
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
@@ -40,6 +41,13 @@ public class Drivebase {
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.REVERSE);
 
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        controller.setTolerance(TOLERANCE);
+        controller.setIntegrationBounds(INTERGRAL_MIN, INTERGRAL_MAX);
     }
 
     public void setMotorPower(double left, double right){
@@ -53,6 +61,25 @@ public class Drivebase {
         rightFront.setPower(right/largest);
         rightBack.setPower(right/largest);
 
+    }
+
+    // Return the value of encoder of both sides
+    public int getLeftPosition() {
+        return leftFront.getCurrentPosition();
+    }
+
+    public int getRightPosition() {
+        return rightFront.getCurrentPosition();
+    }
+
+    public double rotateAngle(double angle, double setPoint) {
+        controller.setSetPoint(setPoint);
+        return controller.calculate(angle);
+    }
+
+    // Check whether our robot has faced the sink or not.
+    public boolean atSetpoint() {
+        return controller.atSetPoint();
     }
 
     public void setAllMotorPower(double p) {setMotorPower(p,p);}
