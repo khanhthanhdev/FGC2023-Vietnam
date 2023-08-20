@@ -18,7 +18,7 @@ public class Drivebase {
     private DcMotor leftBack;
     private DcMotor rightBack;
     BNO055IMU imu;
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
 
     public Drivebase(OpMode opMode){
         this.hardwareMap = opMode.hardwareMap;

@@ -1,4 +1,15 @@
 package org.firstinspires.ftc.teamcode.VNRobot;
+
+import static org.firstinspires.ftc.teamcode.Constants.PROJECTILE_MOTION.SINK_HEIGHT;
+import static org.firstinspires.ftc.teamcode.Constants.SPEED.BOOST_DrB;
+import static org.firstinspires.ftc.teamcode.Constants.SPEED.BOOST_Intake;
+import static org.firstinspires.ftc.teamcode.Constants.SPEED.CLIMBER;
+import static org.firstinspires.ftc.teamcode.Constants.SPEED.INTAKE;
+import static org.firstinspires.ftc.teamcode.Constants.SPEED.LOADER;
+import static org.firstinspires.ftc.teamcode.Constants.SPEED.NORMAL_DrB;
+import static org.firstinspires.ftc.teamcode.Constants.SPEED.OXYLIFT;
+import static org.firstinspires.ftc.teamcode.Constants.SPEED.WRAP;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -6,7 +17,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.Drivebase;
-
 import org.firstinspires.ftc.teamcode.Subsystems.Grab;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Loader;
@@ -16,28 +26,23 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.WrapBall;
 import org.firstinspires.ftc.teamcode.utils.ProjectileCalculator;
 
-
-
-import static org.firstinspires.ftc.teamcode.Constants.PROJECTILE_MOTION.*;
-import static org.firstinspires.ftc.teamcode.Constants.SPEED.*;
-
 public class Robot {
 
-    private Drivebase drivebase;
-    private Intake intake;
-    private Shooter shooter;
-    private Gamepad gamepad1;
-    private Gamepad gamepad2;
+    private final Drivebase drivebase;
+    private final Intake intake;
+    private final Shooter shooter;
+    private final Gamepad gamepad1;
+    private final Gamepad gamepad2;
 
     private Telemetry telemetry;
-    private Grab grab;
-    private LoaderGate loaderGate;
-    private Loader loader;
-    private WrapBall wrapBall;
-    private OxyCascade oxyCascade;
+    private final Grab grab;
+    private final LoaderGate loaderGate;
+    private final Loader loader;
+    private final WrapBall wrapBall;
+    private final OxyCascade oxyCascade;
 
 
-    private  boolean testMode = false;
+    private final boolean testMode = false;
     private boolean autoRotateMode = false;
 
     double gatePosition;
@@ -82,12 +87,12 @@ public class Robot {
 
     public void loop(){
 
-        double ikV = 0; // intake
-        double wrV = 0; // wrap
-        double olV = 0; // lift up oxi storage
-        double ldV = 0; // loader
-        double stV = 0; // shooter
-        double clbV = 0; // climber
+        double intakePower = 0; // intake
+        double wrapPower = 0; // wrap
+        double OxiLiftUpPower = 0; // lift up oxi storage
+        double loaderPower = 0; // loader
+        double shooterPower = 0; // shooter
+        double climberPower = 0; // climber
         double MAX_SPEED = NORMAL_DrB;
         double leftDrB = 0;
         double rightDrB = 0;
@@ -100,32 +105,12 @@ public class Robot {
 
 
 
-        // Trigger by left bumper of gamepad 2, switching between test and main automatically after each time pressing LB
-        if(gamepad2.left_bumper) {
-            testMode =! testMode;
-        }
 
-        if(testMode) {
-            // Only one mechanism can be tested at a time
-            if(gamepad1.cross) {
-                stV = gamepad1.left_stick_y;
-            }
-
-            else if(gamepad1.circle) {
-                ikV = gamepad1.left_stick_y;
-            }
-
-            else {
-                MAX_SPEED = gamepad1.left_trigger;
-                leftDrB = gamepad1.left_stick_y * MAX_SPEED;
-                rightDrB = gamepad1.right_stick_y * MAX_SPEED;
-            }
-        }
 
         // The main mode to run the robot
-        else {
+
             // Pressing RB will boost the speed of the chassis
-            if (gamepad1.left_trigger > 0.7) {
+            if (gamepad1.left_trigger > 0.5) {
                 MAX_SPEED = BOOST_DrB;
             }
 
@@ -147,9 +132,9 @@ public class Robot {
             // Pressing the right trigger of the gamepad 1 until it reaches its end will activate the intake
             // While then, pressing the left bumper will boost the speed of intake
             if (gamepad1.right_bumper) {
-                ikV = INTAKE;
-                if (gamepad1.right_trigger > 0.7) {
-                    ikV = BOOST_Intake;
+                intakePower = INTAKE;
+                if (gamepad1.right_trigger > 0.5) {
+                    intakePower = BOOST_Intake;
                 }
             }
 
@@ -157,7 +142,7 @@ public class Robot {
 
             // Run the climber at specific speed
             if (gamepad2.right_trigger > 0.8) {
-                clbV = CLIMBER;
+                climberPower = CLIMBER;
             }
 
             // Run the shooter at a specific speed
@@ -171,21 +156,21 @@ public class Robot {
             }
 
             if (shooterState){
-                stV =  shooter.calculate(1500, shooter.getVelocity());
+                shooterPower =  shooter.calculate(1200, shooter.getVelocity());
             } else {
-                stV = 0;
+                shooterPower = 0;
             }
 
             if(gamepad1.left_bumper) {
-                ikV = -ikV;
+                intakePower = -intakePower;
             }
 
             // While the devices are working, Triggering the L2 of gamepad 2 will reverse the direction of all of them. (in their manual mode)
-            if(gamepad2.left_trigger > 0.8) {
-                stV = -stV;
-                clbV = -clbV;
+            if(gamepad2.left_trigger > 0.5) {
+                shooterPower = -shooterPower;
+                climberPower = -climberPower;
             }
-        }
+
 
 
         // Open Gate for the ball go to shooter
@@ -219,46 +204,46 @@ public class Robot {
 
         // Load ball to shooter
         if (gamepad2.dpad_up){
-            ldV = LOADER;
+            loaderPower = LOADER;
         } else if (gamepad2.dpad_down){
-            ldV = -LOADER;
+            loaderPower = -LOADER;
         }
 
         // Wrap ball in storage
         if (gamepad2.dpad_right){
-            wrV = WRAP;
+            wrapPower = WRAP;
         } else if (gamepad2.dpad_left) {
-            wrV = -WRAP;
+            wrapPower = -WRAP;
         }
 
 
         // Lift up O2 storage to accumulator
         if (gamepad2.right_bumper){
-            olV = OXYLIFT;
+            OxiLiftUpPower = OXYLIFT;
         } else if (gamepad2.left_bumper) {
-            olV = -OXYLIFT;
+            OxiLiftUpPower = -OXYLIFT;
         }
 
 
-        intake.setMotorPower(ikV);
-        loader.load(ldV);
+        intake.setMotorPower(intakePower);
+        loader.load(loaderPower);
         drivebase.setMotorPower(rightDrB, leftDrB);
-        shooter.shoot(stV);
-        wrapBall.wrapSpped(wrV);
-        oxyCascade.OxyLiftUp(olV);
+        shooter.shoot(shooterPower);
+        wrapBall.wrapSpped(wrapPower);
+        oxyCascade.OxyLiftUp(OxiLiftUpPower);
 
 
-        telemetry.addData("Test mode", testMode);
         telemetry.addData("Shooter velocity", shooter.getVelocity());
         telemetry.addData("Shooter Power", shooter.getMotorPower());
-        telemetry.addData("Intake speed", ikV);
-        telemetry.addData("Loader state", ldV);
-        telemetry.addData("left DrB speed", leftDrB);
-        telemetry.addData("Right DrB speed", rightDrB);
-        telemetry.addData("Max DrB speed", MAX_SPEED);
+        telemetry.addData("Intake speed", intakePower);
+        telemetry.addData("Loader state", loaderPower);
+
+//        telemetry.addData("left DrB speed", leftDrB);
+//        telemetry.addData("Right DrB speed", rightDrB);
+//        telemetry.addData("Max DrB speed", MAX_SPEED);
         telemetry.addData("Grab Pos", grabPosition);
         telemetry.addData("Gate Pos", gatePosition);
-//        telemetry.addData("Climber speed", clbV);
+//        telemetry.addData("Climber speed", climberPower);
         telemetry.update();
     }
 }

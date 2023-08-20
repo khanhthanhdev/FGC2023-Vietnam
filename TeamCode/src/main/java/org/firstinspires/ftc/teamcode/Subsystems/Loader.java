@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 // Class for controlling the loader
 public class Loader {
     private CRServo loader;
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
     public Loader(OpMode opMode) {
         hardwareMap = opMode.hardwareMap;
     }

@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 public class IMU {
     private BNO055IMU imu;
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
 
     public IMU(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;

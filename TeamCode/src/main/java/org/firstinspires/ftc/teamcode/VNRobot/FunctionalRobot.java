@@ -16,16 +16,16 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 public class FunctionalRobot {
 
 //    private IMU imu;
-    private Drivebase drivebase;
-    private Telemetry telemetry;
-    private Gamepad gamepad1;
-    private Intake intake;
-    private Shooter shooter;
+    private final Drivebase drivebase;
+    private final Telemetry telemetry;
+    private final Gamepad gamepad1;
+    private final Intake intake;
+    private final Shooter shooter;
 
-    private LoaderGate loaderGate;
+    private final LoaderGate loaderGate;
 
-    private Grab grabLeft;
-    private Grab grabRight;
+    private final Grab grabLeft;
+    private final Grab grabRight;
 
     Gamepad currentGamepad1 = new Gamepad();
 

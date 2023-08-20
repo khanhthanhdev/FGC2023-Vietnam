@@ -18,7 +18,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 public class StreamCamera {
 
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
     OpenCvWebcam webcam;
     public StreamCamera(OpMode opMode) {
         hardwareMap = opMode.hardwareMap;

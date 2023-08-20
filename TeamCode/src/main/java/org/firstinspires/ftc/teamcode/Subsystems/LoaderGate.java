@@ -8,7 +8,7 @@ public class LoaderGate {
 
     private Servo loaderGate;
 
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
 
     public LoaderGate(OpMode opMode){hardwareMap = opMode.hardwareMap;}
 

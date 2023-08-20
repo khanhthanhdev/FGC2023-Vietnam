@@ -82,7 +82,6 @@ public final class Constants {
     // The speed value in manual controlling
     public static final class SPEED {
         public static final double INTAKE = -1;
-        public static final double HOOD = 1;
         public static final double LOADER = -1;
         public static final double WRAP = -1;
         public static final double OXYLIFT = -1;

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class WrapBall {
     private CRServo wrap;
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
     public WrapBall(OpMode opMode) {
         hardwareMap = opMode.hardwareMap;
     }

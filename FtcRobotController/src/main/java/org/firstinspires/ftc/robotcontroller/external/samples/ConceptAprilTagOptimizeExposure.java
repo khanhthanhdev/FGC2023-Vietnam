@@ -200,7 +200,7 @@ public class ConceptAprilTagOptimizeExposure extends LinearOpMode
                 exposureControl.setMode(ExposureControl.Mode.Manual);
                 sleep(50);
             }
-            exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
+            exposureControl.setExposure(exposureMS, TimeUnit.MILLISECONDS);
             sleep(20);
 
             // Set Gain.

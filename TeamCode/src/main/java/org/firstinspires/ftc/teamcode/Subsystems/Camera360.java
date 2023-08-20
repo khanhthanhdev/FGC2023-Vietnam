@@ -9,7 +9,7 @@ public class Camera360 {
     private Servo horizontal;
     private Servo vertical;
 
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
 
     public Camera360(OpMode opMode){hardwareMap = opMode.hardwareMap;}
 

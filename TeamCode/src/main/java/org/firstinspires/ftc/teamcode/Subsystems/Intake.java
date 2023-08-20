@@ -9,7 +9,7 @@ public class Intake {
 
     private DcMotor intake;
 
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
 
     public Intake(OpMode opMode){
         hardwareMap = opMode.hardwareMap;

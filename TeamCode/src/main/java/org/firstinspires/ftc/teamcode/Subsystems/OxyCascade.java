@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class OxyCascade {
     private CRServo OxyCascade;
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
     public OxyCascade(OpMode opMode) {
         hardwareMap = opMode.hardwareMap;
     }

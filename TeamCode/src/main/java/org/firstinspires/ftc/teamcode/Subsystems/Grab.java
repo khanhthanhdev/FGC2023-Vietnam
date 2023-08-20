@@ -9,7 +9,7 @@ public class Grab {
     private Servo grabLeft;
     private Servo grabRight;
 
-    private HardwareMap hardwareMap;
+    private final HardwareMap hardwareMap;
 
     public Grab(OpMode opMode){hardwareMap = opMode.hardwareMap;}
 
