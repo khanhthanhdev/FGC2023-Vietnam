@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.VNRobot;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 @TeleOp(name="Test Shooter")
+@Disabled
 public class TestShooter extends OpMode {
     private DcMotor shooter;
 

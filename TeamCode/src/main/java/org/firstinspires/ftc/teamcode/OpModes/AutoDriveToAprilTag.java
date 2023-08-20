@@ -52,7 +52,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
  */
 
 @TeleOp(name="Tank Drive To AprilTag", group = "Concept")
-//@Disabled
+@Disabled
 public class AutoDriveToAprilTag extends LinearOpMode
 {
     // Adjust these numbers to suit your robot.

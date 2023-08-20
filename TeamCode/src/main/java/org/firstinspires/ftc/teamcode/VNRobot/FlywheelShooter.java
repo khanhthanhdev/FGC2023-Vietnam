@@ -16,7 +16,7 @@ import java.util.List;
  * that are linked mechanically.
  */
 @TeleOp(name = "Flywheel")
-//@Disabled
+@Disabled
 public class FlywheelShooter extends LinearOpMode {
 
 
