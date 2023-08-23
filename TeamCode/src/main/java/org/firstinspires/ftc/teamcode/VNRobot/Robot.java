@@ -134,6 +134,10 @@ public class Robot {
         if (gamepad1.touchpad) {
             autoRotateMode = !autoRotateMode;
         }
+        if (autoRotateMode){
+            leftDrB = -leftDrB;
+            rightDrB = -rightDrB;
+        }
 
         // Pressing the right stick button of gamepad 1 will reset the position of the odometry,
         // and start a new series of calculation with new position
@@ -244,9 +248,9 @@ public class Robot {
 //        telemetry.addData("Intake speed", intakePower);
 //        telemetry.addData("Loader state", loaderPower);
 
-//        telemetry.addData("left DrB speed", leftDrB);
-//        telemetry.addData("Right DrB speed", rightDrB);
-//        telemetry.addData("Max DrB speed", MAX_SPEED);
+        telemetry.addData("left DrB speed", leftDrB);
+        telemetry.addData("Right DrB speed", rightDrB);
+        telemetry.addData("Max DrB speed", MAX_SPEED);
 //        telemetry.addData("Grab Pos", grabPosition);
 //        telemetry.addData("Gate Pos", gatePosition);
         telemetry.addData("Climber speed", climberPower);

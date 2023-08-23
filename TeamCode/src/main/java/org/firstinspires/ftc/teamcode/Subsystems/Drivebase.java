@@ -72,15 +72,15 @@ public class Drivebase {
         return rightFront.getCurrentPosition();
     }
 
-    public double rotateAngle(double angle, double setPoint) {
-        controller.setSetPoint(setPoint);
-        return controller.calculate(angle);
-    }
-
-    // Check whether our robot has faced the sink or not.
-    public boolean atSetpoint() {
-        return controller.atSetPoint();
-    }
+//    public double rotateAngle(double angle, double setPoint) {
+//        controller.setSetPoint(setPoint);
+//        return controller.calculate(angle);
+//    }
+//
+//    // Check whether our robot has faced the sink or not.
+//    public boolean atSetpoint() {
+//        return controller.atSetPoint();
+//    }
 
     public void setAllMotorPower(double p) {setMotorPower(p,p);}
 }
