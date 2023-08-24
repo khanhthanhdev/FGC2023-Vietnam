@@ -129,15 +129,14 @@ public class Robot {
         }
 
         // Control the speed of the chassis by 2 joysticks on the gamepad
+
+
         leftDrB = gamepad1.left_stick_y * MAX_SPEED;
         rightDrB = gamepad1.right_stick_y * MAX_SPEED;
 
         if (Math.abs(gamepad2.right_stick_y) >= 0.2){
             grab.grabSpeed((gamepad2.right_stick_y*servoSentivity) + grabPower);
         }
-
-
-
 
         // Pressing the left stick button will switch between auto rotate mode and manual mode of the robot
         if (gamepad1.touchpad) {
@@ -150,9 +149,9 @@ public class Robot {
 
         // Pressing the right stick button of gamepad 1 will reset the position of the odometry,
         // and start a new series of calculation with new position
-        //            if(gamepad1.right_stick_button) {
-        //                odometry.resetPosition(0, 0, 0);
-        //            }
+        if(gamepad1.right_stick_button) {
+            odometry.resetPosition(0, 0, 0);
+        }
 
         // Pressing the right trigger of the gamepad 1 until it reaches its end will activate the intake
         // While then, pressing the left bumper will boost the speed of intake
@@ -181,7 +180,7 @@ public class Robot {
         }
 
         if (shooterState) {
-            shooterPower = shooter.calculate(1200, shooter.getVelocity());
+            shooterPower = shooter.calculate(1350, shooter.getVelocity());
         } else {
             shooterPower = 0;
         }
@@ -243,10 +242,44 @@ public class Robot {
             OxiLiftUpPower = -OXYLIFT;
         }
 
+        if(gamepad1.dpad_up){
+            leftDrB = 0.5;
+            rightDrB = 0.5;
+        }
+        if (gamepad1.dpad_down) {
+            leftDrB = -0.5;
+            rightDrB = -0.5;
+        }
+        if (gamepad1.dpad_right){
+            leftDrB = 0.5;
+            rightDrB = 0;
+        }
+        if (gamepad1.dpad_left){
+            leftDrB = 0;
+            rightDrB = 0.5;
+        }
+
+        if(gamepad1.dpad_up && gamepad1.dpad_right){
+            leftDrB = 0.5;
+            rightDrB = 0.3;
+        }
+        if(gamepad1.dpad_up && gamepad1.dpad_left){
+            leftDrB = 0.3;
+            rightDrB = 0.5;
+        }
+        if(gamepad1.dpad_down && gamepad1.dpad_left){
+            leftDrB = -0.5;
+            rightDrB = -0.3;
+        }
+        if(gamepad1.dpad_down && gamepad1.dpad_right){
+            leftDrB = -0.3;
+            rightDrB = -0.5;
+        }
+
         intake.setMotorPower(intakePower);
         loader.load(loaderPower);
-        drivebase.setMotorPower(rightDrB, leftDrB);
-        shooter.shoot(shooterPower);
+        drivebase.setMotorPower(leftDrB, rightDrB);
+        shooter.shoot(-shooterPower);
         wrapBall.wrapSpped(wrapPower);
         oxyCascade.OxyLiftUp(OxiLiftUpPower);
         climber.climb(climberPower);

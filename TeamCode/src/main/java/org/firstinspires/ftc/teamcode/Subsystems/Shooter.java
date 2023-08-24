@@ -36,7 +36,7 @@ public class Shooter {
     public void init() {
         sr1 = hardwareMap.get(DcMotorEx.class, "shooter");
         sr1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        sr1.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        sr1.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
         sr1.setDirection(DcMotorSimple.Direction.REVERSE);
 

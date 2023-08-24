@@ -32,10 +32,10 @@ public class Drivebase {
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         leftFront.setDirection(DcMotor.Direction.REVERSE);
@@ -46,8 +46,8 @@ public class Drivebase {
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        controller.setTolerance(TOLERANCE);
-        controller.setIntegrationBounds(INTERGRAL_MIN, INTERGRAL_MAX);
+//        controller.setTolerance(TOLERANCE);
+//        controller.setIntegrationBounds(INTERGRAL_MIN, INTERGRAL_MAX);
     }
 
     public void setMotorPower(double left, double right){

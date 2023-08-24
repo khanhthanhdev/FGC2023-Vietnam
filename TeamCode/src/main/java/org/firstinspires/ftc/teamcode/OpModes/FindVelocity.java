@@ -23,7 +23,7 @@ public class FindVelocity extends LinearOpMode {
     private double shooterTargetVelocity = 1500.0;
     private double shooterMaxVelocity = 2940.0;
     private double F = 32767.0 / shooterMaxVelocity;
-    private double kP = 0.75;
+    private double kP = 1.3;
     private double kI = kP * 0.1;
     private double kD = kP * 0.01;
     private double position = 5.0;
@@ -37,7 +37,12 @@ public class FindVelocity extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()){
 
-            runShooter(shooterTargetVelocity);
+            if (gamepad2.cross){
+                runShooter(shooterTargetVelocity);
+            } else if (gamepad2.circle) {
+                leftMotor.setPower(zeroPower);
+            }
+
             motorTelemetry();
         }
     }
@@ -57,7 +62,7 @@ public class FindVelocity extends LinearOpMode {
     }
 
     public void initShooterPID(double kP, double kI, double kD, double F, double position){
-        leftMotor = hardwareMap.get(DcMotorEx.class, "leftFront");
+        leftMotor = hardwareMap.get(DcMotorEx.class, "shooter");
         leftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         leftMotor.setPower(zeroPower);
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
