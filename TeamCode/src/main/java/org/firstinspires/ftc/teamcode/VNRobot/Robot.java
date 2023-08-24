@@ -49,9 +49,9 @@ public class Robot {
     double gatePosition;
     boolean oldGatePosition;
 
-    double grabPosition;
-
-    boolean oldGrabPosition;
+//    double grabPosition;
+//
+//    boolean oldGrabPosition;
     boolean shooterState;
 
     public Robot(OpMode opMode) {
@@ -102,12 +102,14 @@ public class Robot {
         double loaderPower = 0; // loader
         double shooterPower = 0; // shooter
         double climberPower = 0; // climber
+        double servoSentivity = SENTIVITY;
+        double grabPower = 0.5;
         double MAX_SPEED = NORMAL_DrB;
         double leftDrB = 0;
         double rightDrB = 0;
 
         boolean gateButton = gamepad2.square;
-        boolean grabButton = gamepad1.triangle;
+//        boolean grabButton = gamepad1.triangle;
 
         odometry.update(
                 drivebase.getLeftPosition(),
@@ -129,6 +131,13 @@ public class Robot {
         // Control the speed of the chassis by 2 joysticks on the gamepad
         leftDrB = gamepad1.left_stick_y * MAX_SPEED;
         rightDrB = gamepad1.right_stick_y * MAX_SPEED;
+
+        if (Math.abs(gamepad2.right_stick_y) >= 0.2){
+            grab.grabSpeed((gamepad2.right_stick_y*servoSentivity) + grabPower);
+        }
+
+
+
 
         // Pressing the left stick button will switch between auto rotate mode and manual mode of the robot
         if (gamepad1.touchpad) {
@@ -201,17 +210,17 @@ public class Robot {
         oldGatePosition = gateButton;
 
         // Hold Hidro tank
-        if (grabButton && !oldGrabPosition) {
-            if (grabPosition == 0) {
-                grab.grabPos(0.7);
-                grabPosition = 1;
-            } else {
-                grab.grabPos(0);
-                grabPosition = 0;
-            }
-        }
-
-        oldGrabPosition = grabButton;
+//        if (grabButton && !oldGrabPosition) {
+//            if (grabPosition == 0) {
+//                grab.grabPos(0.7);
+//                grabPosition = 1;
+//            } else {
+//                grab.grabPos(0);
+//                grabPosition = 0;
+//            }
+//        }
+//
+//        oldGrabPosition = grabButton;
 
         // Load ball to shooter
         if (gamepad2.dpad_up) {
@@ -245,14 +254,14 @@ public class Robot {
 
         telemetry.addData("Shooter velocity", shooter.getVelocity());
         telemetry.addData("Shooter Power", shooter.getMotorPower());
-//        telemetry.addData("Intake speed", intakePower);
+        telemetry.addData("Intake speed", intakePower);
 //        telemetry.addData("Loader state", loaderPower);
 
         telemetry.addData("left DrB speed", leftDrB);
         telemetry.addData("Right DrB speed", rightDrB);
-        telemetry.addData("Max DrB speed", MAX_SPEED);
-//        telemetry.addData("Grab Pos", grabPosition);
-//        telemetry.addData("Gate Pos", gatePosition);
+//        telemetry.addData("Max DrB speed", MAX_SPEED);
+//
+        telemetry.addData("Grab Speed", grabPower);
         telemetry.addData("Climber speed", climberPower);
         telemetry.addData("Pose x", odometry.getRobotPose().getX());
         telemetry.addData("Pose y", odometry.getRobotPose().getY());

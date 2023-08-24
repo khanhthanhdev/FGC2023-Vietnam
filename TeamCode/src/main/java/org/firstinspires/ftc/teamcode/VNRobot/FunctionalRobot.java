@@ -93,19 +93,19 @@ public class FunctionalRobot {
         oldGatePosition = gateButton;
 
 
-        if (grabButton && !oldGrabPosition){
-            if (grabPosition == 0){
-                grabLeft.grabPos(0.5);
-                grabRight.grabPos(0.5);
-                gatePosition = 1;
-            } else {
-                grabLeft.grabPos(0);
-                grabRight.grabPos(0);
-                gatePosition = 0;
-            }
-        }
-
-        oldGrabPosition = grabButton;
+//        if (grabButton && !oldGrabPosition){
+//            if (grabPosition == 0){
+//                grabLeft.grabPos(0.5);
+//                grabRight.grabPos(0.5);
+//                gatePosition = 1;
+//            } else {
+//                grabLeft.grabPos(0);
+//                grabRight.grabPos(0);
+//                gatePosition = 0;
+//            }
+//        }
+//
+//        oldGrabPosition = grabButton;
 
 
 

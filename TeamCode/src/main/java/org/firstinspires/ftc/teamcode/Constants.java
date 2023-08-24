@@ -13,7 +13,7 @@ public final class Constants {
         public static final double INIT_Y = 0;
         public static final double INIT_THETA = 0;
 
-        public static final double ROBOT_WIDTH = 0.45 * 39.3701;
+        public static final double ROBOT_WIDTH = 0.5 * 39.3701;
         public static final double ROBOT_LENGTH = 0.48 * 39.3701;
         public static final double ARROW_LENGTH = 2;
 
@@ -38,7 +38,7 @@ public final class Constants {
 
     // The PID constants of shooter's program
     public static final class SHOOT {
-        public static final double KP = 1.3;
+        public static final double KP = 1.5;
         public static final double KI = 0;
         public static final double KD = 0;
         public static final double MAX_INTERGRAL = 0;
@@ -85,6 +85,7 @@ public final class Constants {
         public static final double LOADER = -0.65;
         public static final double WRAP = -0.75;
         public static final double OXYLIFT = -1;
+        public static final double SENTIVITY = 0.5;
         public static final double SHOOTER = 0.5;
         public static final double CLIMBER = 1;
         public static final double BOOST_DrB = 1;
