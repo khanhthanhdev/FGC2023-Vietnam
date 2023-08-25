@@ -90,6 +90,6 @@ public final class Constants {
         public static final double CLIMBER = 1;
         public static final double BOOST_DrB = 1;
         public static final double NORMAL_DrB = 0.6;
-        public static final double BOOST_Intake = -1;
+        public static final double BOOST_Intake = 1;
     }
 }

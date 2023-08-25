@@ -185,7 +185,7 @@ public class Robot {
         }
 
         if (shooterState) {
-            shooterPower = shooter.calculate(1350, shooter.getVelocity());
+            shooterPower = shooter.calculate(1250, shooter.getVelocity());
         } else {
             shooterPower = 0;
         }
