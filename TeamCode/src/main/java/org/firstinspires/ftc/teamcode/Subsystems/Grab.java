@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
+
 
 public class Grab {
 
@@ -21,6 +21,6 @@ public class Grab {
 
     public void grabSpeed(double speed){
         grabLeft.setPower(speed);
-        grabRight.setPower(speed);
+        grabRight.setPower(-speed);
     }
 }

@@ -81,11 +81,11 @@ public final class Constants {
 
     // The speed value in manual controlling
     public static final class SPEED {
-        public static final double INTAKE = -0.7;
-        public static final double LOADER = -0.65;
-        public static final double WRAP = -0.75;
+        public static final double INTAKE = 0.7;
+        public static final double LOADER = -1;
+        public static final double WRAP = -1;
         public static final double OXYLIFT = -1;
-        public static final double SENTIVITY = 0.5;
+        public static final double SENTIVITY = 0.2;
         public static final double SHOOTER = 0.5;
         public static final double CLIMBER = 1;
         public static final double BOOST_DrB = 1;

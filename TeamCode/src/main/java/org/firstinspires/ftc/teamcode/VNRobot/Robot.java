@@ -103,7 +103,7 @@ public class Robot {
         double shooterPower = 0; // shooter
         double climberPower = 0; // climber
         double servoSentivity = SENTIVITY;
-        double grabPower = 0.5;
+        double grabPower = 0;
         double MAX_SPEED = NORMAL_DrB;
         double leftDrB = 0;
         double rightDrB = 0;
@@ -134,8 +134,10 @@ public class Robot {
         leftDrB = gamepad1.left_stick_y * MAX_SPEED;
         rightDrB = gamepad1.right_stick_y * MAX_SPEED;
 
-        if (Math.abs(gamepad2.right_stick_y) >= 0.2){
-            grab.grabSpeed((gamepad2.right_stick_y*servoSentivity) + grabPower);
+        if (gamepad2.right_trigger > 0.3){
+            grabPower = 1;
+        } else if (gamepad2.left_trigger > 0.3) {
+            grabPower = -1;
         }
 
         // Pressing the left stick button will switch between auto rotate mode and manual mode of the robot
@@ -165,8 +167,11 @@ public class Robot {
 
 
         // Run the climber at specific speed
-        if (gamepad2.right_trigger > 0.5) {
+        if (gamepad2.right_stick_y > 0.5) {
             climberPower = CLIMBER;
+        }
+        if(gamepad2.right_stick_y < -0.5){
+            climberPower = -CLIMBER;
         }
 
         // Run the shooter at a specific speed
@@ -243,12 +248,12 @@ public class Robot {
         }
 
         if(gamepad1.dpad_up){
-            leftDrB = 0.5;
-            rightDrB = 0.5;
-        }
-        if (gamepad1.dpad_down) {
             leftDrB = -0.5;
             rightDrB = -0.5;
+        }
+        if (gamepad1.dpad_down) {
+            leftDrB = 0.5;
+            rightDrB = 0.5;
         }
         if (gamepad1.dpad_right){
             leftDrB = 0.5;
@@ -260,29 +265,30 @@ public class Robot {
         }
 
         if(gamepad1.dpad_up && gamepad1.dpad_right){
-            leftDrB = 0.5;
-            rightDrB = 0.3;
+            leftDrB = 0.6;
+            rightDrB = 0.4;
         }
         if(gamepad1.dpad_up && gamepad1.dpad_left){
-            leftDrB = 0.3;
-            rightDrB = 0.5;
+            leftDrB = 0.4;
+            rightDrB = 0.6;
         }
         if(gamepad1.dpad_down && gamepad1.dpad_left){
-            leftDrB = -0.5;
-            rightDrB = -0.3;
+            leftDrB = -0.6;
+            rightDrB = -0.4;
         }
         if(gamepad1.dpad_down && gamepad1.dpad_right){
-            leftDrB = -0.3;
-            rightDrB = -0.5;
+            leftDrB = -0.4;
+            rightDrB = -0.6;
         }
 
         intake.setMotorPower(intakePower);
         loader.load(loaderPower);
-        drivebase.setMotorPower(leftDrB, rightDrB);
-        shooter.shoot(-shooterPower);
+        drivebase.setMotorPower(rightDrB, leftDrB);
+        shooter.shoot(shooterPower);
         wrapBall.wrapSpped(wrapPower);
         oxyCascade.OxyLiftUp(OxiLiftUpPower);
         climber.climb(climberPower);
+        grab.grabSpeed(grabPower);
 
 
         telemetry.addData("Shooter velocity", shooter.getVelocity());
