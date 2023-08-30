@@ -20,7 +20,7 @@ public class FindVelocity extends LinearOpMode {
     private double currentVelocity = 0.0;
     private double maxVelocity = 0.0;
 
-    private double shooterTargetVelocity = 1500.0;
+    private double shooterTargetVelocity = 3000.0;
     private double shooterMaxVelocity = 2940.0;
     private double F = 32767.0 / shooterMaxVelocity;
     private double kP = 1.3;

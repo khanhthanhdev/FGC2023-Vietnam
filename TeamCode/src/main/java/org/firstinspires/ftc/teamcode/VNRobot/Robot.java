@@ -53,6 +53,8 @@ public class Robot {
 //
 //    boolean oldGrabPosition;
     boolean shooterState;
+    boolean loaderState;
+    boolean wrapState;
 
     public Robot(OpMode opMode) {
         intake = new Intake(opMode);
@@ -102,7 +104,6 @@ public class Robot {
         double loaderPower = 0; // loader
         double shooterPower = 0; // shooter
         double climberPower = 0; // climber
-        double servoSentivity = SENTIVITY;
         double grabPower = 0;
         double MAX_SPEED = NORMAL_DrB;
         double leftDrB = 0;
@@ -127,8 +128,6 @@ public class Robot {
         if (gamepad1.left_trigger > 0.5) {
             MAX_SPEED = BOOST_DrB;
         }
-
-        // Control the speed of the chassis by 2 joysticks on the gamepad
 
 
         leftDrB = gamepad1.left_stick_y * MAX_SPEED;
@@ -165,7 +164,6 @@ public class Robot {
         }
 
 
-
         // Run the climber at specific speed
         if (gamepad2.right_stick_y > 0.5) {
             climberPower = CLIMBER;
@@ -185,7 +183,8 @@ public class Robot {
         }
 
         if (shooterState) {
-            shooterPower = shooter.calculate(1250, shooter.getVelocity());
+            shooterPower = shooter.calculate(1200, shooter.getVelocity());
+
         } else {
             shooterPower = 0;
         }
@@ -213,31 +212,33 @@ public class Robot {
 
         oldGatePosition = gateButton;
 
-        // Hold Hidro tank
-//        if (grabButton && !oldGrabPosition) {
-//            if (grabPosition == 0) {
-//                grab.grabPos(0.7);
-//                grabPosition = 1;
-//            } else {
-//                grab.grabPos(0);
-//                grabPosition = 0;
-//            }
-//        }
-//
-//        oldGrabPosition = grabButton;
-
         // Load ball to shooter
         if (gamepad2.dpad_up) {
-            loaderPower = LOADER;
+            loaderState = true;
         } else if (gamepad2.dpad_down) {
+            loaderState = false;
+        }
+        if(loaderState == true){
+            loaderPower = LOADER;
+        } else if (loaderState == false) {
             loaderPower = -LOADER;
         }
 
         // Wrap ball in storage
         if (gamepad2.dpad_right) {
-            wrapPower = WRAP;
+            wrapState = true;
         } else if (gamepad2.dpad_left) {
+            wrapState = false;
+        }
+        if (wrapState == true){
+            wrapPower = WRAP;
+        } else if (wrapState == false) {
             wrapPower = -WRAP;
+        }
+
+        if (gamepad2.square){
+            wrapPower = 0;
+            loaderPower = 0;
         }
 
         // Lift up O2 storage to accumulator
@@ -256,35 +257,35 @@ public class Robot {
             rightDrB = 0.5;
         }
         if (gamepad1.dpad_right){
-            leftDrB = 0.5;
-            rightDrB = 0;
+            leftDrB = -0.5;
+            rightDrB = 0.5;
         }
         if (gamepad1.dpad_left){
-            leftDrB = 0;
-            rightDrB = 0.5;
+            leftDrB = 0.5;
+            rightDrB = -0.5;
         }
 
         if(gamepad1.dpad_up && gamepad1.dpad_right){
-            leftDrB = 0.6;
-            rightDrB = 0.4;
-        }
-        if(gamepad1.dpad_up && gamepad1.dpad_left){
-            leftDrB = 0.4;
-            rightDrB = 0.6;
-        }
-        if(gamepad1.dpad_down && gamepad1.dpad_left){
             leftDrB = -0.6;
             rightDrB = -0.4;
         }
-        if(gamepad1.dpad_down && gamepad1.dpad_right){
+        if(gamepad1.dpad_up && gamepad1.dpad_left){
             leftDrB = -0.4;
             rightDrB = -0.6;
+        }
+        if(gamepad1.dpad_down && gamepad1.dpad_left){
+            leftDrB = 0.4;
+            rightDrB = 0.6;
+        }
+        if(gamepad1.dpad_down && gamepad1.dpad_right){
+            leftDrB = 0.6;
+            rightDrB = 0.4;
         }
 
         intake.setMotorPower(intakePower);
         loader.load(loaderPower);
         drivebase.setMotorPower(rightDrB, leftDrB);
-        shooter.shoot(shooterPower);
+        shooter.shoot(-shooterPower);
         wrapBall.wrapSpped(wrapPower);
         oxyCascade.OxyLiftUp(OxiLiftUpPower);
         climber.climb(climberPower);
@@ -293,15 +294,15 @@ public class Robot {
 
         telemetry.addData("Shooter velocity", shooter.getVelocity());
         telemetry.addData("Shooter Power", shooter.getMotorPower());
-        telemetry.addData("Intake speed", intakePower);
+//        telemetry.addData("Intake speed", intakePower);
 //        telemetry.addData("Loader state", loaderPower);
 
         telemetry.addData("left DrB speed", leftDrB);
         telemetry.addData("Right DrB speed", rightDrB);
 //        telemetry.addData("Max DrB speed", MAX_SPEED);
-//
-        telemetry.addData("Grab Speed", grabPower);
-        telemetry.addData("Climber speed", climberPower);
+
+//        telemetry.addData("Grab Speed", grabPower);
+//        telemetry.addData("Climber speed", climberPower);
         telemetry.addData("Pose x", odometry.getRobotPose().getX());
         telemetry.addData("Pose y", odometry.getRobotPose().getY());
         telemetry.addData("Heading", odometry.getRobotPose().getHeading());
