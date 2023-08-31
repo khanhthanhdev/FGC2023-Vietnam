@@ -19,6 +19,7 @@ public class XDrive extends OpMode {
     private DcMotor rightBack;
     private BNO055IMU imu;
 
+
     float rotate_angle = 0;
     double reset_angle = 0;
 
@@ -199,7 +200,7 @@ public class XDrive extends OpMode {
 //        rightBack.setPower(rightBackPower);
             drive();
             resetAngle();
-            driveSimple();
+//            driveSimple();
             telemetry.update();
     }
 }
