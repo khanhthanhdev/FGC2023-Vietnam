@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.WrapBall;
 import org.firstinspires.ftc.teamcode.utils.Odometry;
 import org.firstinspires.ftc.teamcode.utils.ProjectileCalculator;
+import org.firstinspires.ftc.teamcode.utils.WheelOdometry;
 
 public class Robot {
 
@@ -46,6 +47,7 @@ public class Robot {
     private boolean autoRotateMode = false;
     private Odometry odometry;
 
+    private WheelOdometry TankOdometry;
     double gatePosition;
     boolean oldGatePosition;
 
@@ -94,6 +96,8 @@ public class Robot {
                 new Pose2d(INIT_X, INIT_Y, new Rotation2d(INIT_THETA)),
                 new Rotation2d(imu.getYaw())
         );
+
+        TankOdometry = new WheelOdometry(INIT_X,INIT_Y,INIT_THETA);
     }
 
     public void loop() {
@@ -118,6 +122,11 @@ public class Robot {
                 0,
                 new Rotation2d(imu.getYaw())
         );
+
+        TankOdometry.updatePositionWithIMU(drivebase.getLeftPosition(),
+                drivebase.getRightPosition(),
+                imu.getYaw()
+                );
 
         ProjectileCalculator.update(odometry.getDistance());
         ProjectileCalculator.calculate();
@@ -152,6 +161,7 @@ public class Robot {
         // and start a new series of calculation with new position
         if(gamepad1.right_stick_button) {
             odometry.resetPosition(0, 0, 0);
+            TankOdometry.setPose(0,0,0);
         }
 
         // Pressing the right trigger of the gamepad 1 until it reaches its end will activate the intake
@@ -195,7 +205,7 @@ public class Robot {
 
         // While the devices are working, Triggering the L2 of gamepad 2 will reverse the direction of all of them. (in their manual mode)
         if (gamepad2.left_trigger > 0.5) {
-            shooterPower = -shooterPower;
+//            shooterPower = -shooterPower;
             climberPower = -climberPower;
         }
 
@@ -306,6 +316,7 @@ public class Robot {
         telemetry.addData("Pose x", odometry.getRobotPose().getX());
         telemetry.addData("Pose y", odometry.getRobotPose().getY());
         telemetry.addData("Heading", odometry.getRobotPose().getHeading());
+        telemetry.addData("", TankOdometry.displayPositions());
         telemetry.update();
     }
 }

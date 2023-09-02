@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 
-import static org.firstinspires.ftc.teamcode.Constants.SPEED.BOOST_DrB;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.Range;
 
 
-@TeleOp (name="HDrive")
+@TeleOp (name="HDrive Strafer")
 public class HDrive extends OpMode {
 
     private DcMotor leftFront;
@@ -18,19 +17,12 @@ public class HDrive extends OpMode {
     private DcMotor rightBack;
     private DcMotor center;
     private DcMotor cascade;
-    public void goStop() {
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        center.setPower(0);
-    }
 
-    public void setMotorPower(double speed){
-        leftFront.setPower(speed);
-        leftBack.setPower(speed);
-        rightFront.setPower(speed);
-        rightBack.setPower(speed);
+    public void setMotorPower(double leftPower, double rightPower){
+        leftFront.setPower(leftPower);
+        leftBack.setPower(leftPower);
+        rightFront.setPower(rightPower);
+        rightBack.setPower(rightPower);
     }
 
 
@@ -46,51 +38,21 @@ public class HDrive extends OpMode {
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
     }
-
-
 
     @Override
     public void loop() {
 
+        double speed = -gamepad1.left_stick_y;
+        double strafer = gamepad1.right_stick_x;
 
-        double NORMAL_SP = 0.6;
-        double BOOST_SP = 1;
-        double speed = 0;
-        double strafer = 0;
 
-        if (gamepad1.left_trigger > 0.5) {
-            NORMAL_SP = BOOST_SP;
-        }
+        double leftPower = Range.clip(speed+strafer,-1.0,1.0);
+        double rightPower = Range.clip(speed-strafer, -1.0,1.0);
 
-        speed = gamepad1.left_stick_y * NORMAL_SP;
-        strafer = gamepad1.right_stick_x * NORMAL_SP;
+        center.setPower(gamepad1.left_stick_x);
 
-//        if (gamepad1.left_stick_y > 0.05){
-//            left.setPower(gamepad1.left_stick_y);
-//        } else if (gamepad1.left_stick_y < -0.05){
-//            left.setPower(gamepad1.left_stick_y);
-//        } else if (gamepad1.left_stick_y <= 0.05 || gamepad1.left_stick_y >= -0.05){
-//            left.setPower(0);
-//        }
-//
-//        if (gamepad1.right_stick_y > 0.05){
-//            right.setPower(gamepad1.right_stick_y);
-//        } else if (gamepad1.right_stick_y < -0.05){
-//            right.setPower(gamepad1.right_stick_y);
-//        } else if (gamepad1.right_stick_y <= 0.1|| gamepad1.right_stick_y >= -0.1){
-//            right.setPower(0);
-//        }
-
-        if (gamepad1.right_stick_x > 0.05){
-            center.setPower(strafer);
-        } else if (gamepad1.right_stick_x < -0.05){
-            center.setPower(strafer);
-        } else if (gamepad1.right_stick_x <= 0.05 || gamepad1.right_stick_x >= -0.05) {
-            center.setPower(0);
-        }
-        setMotorPower(speed);
+        setMotorPower(leftPower, rightPower);
 
         if(gamepad1.right_bumper){
             cascade.setPower(1);

@@ -15,6 +15,7 @@ public class Odometry {
     private double right_previous;
     private double perpen_previous;
 
+
     public Odometry(Pose2d initialPose, Rotation2d gyroInitialAngle) {
         this.robotPose = initialPose;
         this.gyroOffset = initialPose.getRotation().minus(gyroInitialAngle);

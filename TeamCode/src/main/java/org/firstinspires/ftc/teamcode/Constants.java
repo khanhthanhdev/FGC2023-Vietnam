@@ -17,6 +17,10 @@ public final class Constants {
         public static final double ROBOT_LENGTH = 0.48 * 39.3701;
         public static final double ARROW_LENGTH = 2;
 
+        public static final double WHEEL_RADIUS = 3.54;
+        public static final double TICKS_PER_REV = 538;
+        public static final double TRACK_WIDTH = 14.5;
+
         // lf, lb, rf, rb, tracking arrow
         public static final double[] ANGLE_DIRECTIONS =
                 {
@@ -69,15 +73,7 @@ public final class Constants {
         public static final double SINK_RADIUS = 2 * Math.sqrt(3) / 5;
     }
 //
-    // The PID constants of hood's program
-    public static final class HOOD_CONST {
-        public static final double HD_KP = 1.3;
-        public static final double HD_KI = 0;
-        public static final double HD_KD = 0;
 
-        public static final double P_TOLERANCE = 0.08;
-        public static final double V_TOLERANCE = 0.05;
-    }
 
     // The speed value in manual controlling
     public static final class SPEED {

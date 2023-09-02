@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "FTCLIB drivebase")
-public class XDriveUseLib extends LinearOpMode {
+@TeleOp(name = "HDrive drivebase")
+public class HDriveLib extends LinearOpMode {
 
 
 
@@ -20,7 +20,8 @@ public class XDriveUseLib extends LinearOpMode {
                 new Motor(hardwareMap, "leftFront"),
                 new Motor(hardwareMap, "rightFront"),
                 new Motor(hardwareMap, "leftBack"),
-                new Motor(hardwareMap, "rightBack")
+                new Motor(hardwareMap, "rightBack"),
+                new Motor(hardwareMap,"center")
         );
 
         RevIMU imu = new RevIMU(hardwareMap);
@@ -33,13 +34,19 @@ public class XDriveUseLib extends LinearOpMode {
 
         while (!isStopRequested()){
 
-            if (!FIELD_CENTRIC){
+            if (gamepad1.cross){
+                FIELD_CENTRIC = true;
+            } if (gamepad1.circle){
+                FIELD_CENTRIC = false;
+            }
+
+            if (FIELD_CENTRIC == true){
                 drive.driveRobotCentric(
                         driverOp.getLeftX(),
                         driverOp.getLeftY(),
                         driverOp.getRightX()
                 );
-            } else {
+            } else if (FIELD_CENTRIC == false){
                 drive.driveFieldCentric(
                         driverOp.getLeftX(),
                         driverOp.getLeftY(),

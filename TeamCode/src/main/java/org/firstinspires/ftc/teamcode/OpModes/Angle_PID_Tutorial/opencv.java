@@ -122,10 +122,8 @@ public class opencv extends LinearOpMode {
             Mat hsvFrame = new Mat();
             Imgproc.cvtColor(frame, hsvFrame, Imgproc.COLOR_BGR2HSV);
 
-            Scalar lowerOxy = new Scalar(194,78,100);
-            Scalar upperOxy = new Scalar(200,100,73);
-            Scalar lowerHidro = new Scalar(130,60,65);
-            Scalar upperHidro = new Scalar(130,100,40);
+            Scalar lowerOxy = new Scalar(90,50,70);
+            Scalar upperOxy = new Scalar(128,255,255);
 
             Mat oxyMask = new Mat();
             Core.inRange(hsvFrame, lowerOxy, upperOxy, oxyMask);
