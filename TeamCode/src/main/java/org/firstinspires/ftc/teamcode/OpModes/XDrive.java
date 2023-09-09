@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.*;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.*;
  *
  */
 @TeleOp(name = "XDriveBot demo", group = "XBot")
+@Disabled
 public class XDrive extends LinearOpMode {
 
     DcMotor m1, m2, m3, m4;

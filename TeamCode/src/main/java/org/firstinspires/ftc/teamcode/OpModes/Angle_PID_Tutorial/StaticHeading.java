@@ -14,9 +14,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 @TeleOp(name = "Static Heading")
 public class StaticHeading extends LinearOpMode {
     double integralSum = 0;
-    double Kp = PIDConstants.Kp;
-    double Ki = PIDConstants.Ki;
-    double Kd = PIDConstants.Kd;
+    double Kp = 2.0;
+    double Ki = 0.0;
+    double Kd = 0.0;
 
     Drivetrain drivetrain = new Drivetrain();
 
