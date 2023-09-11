@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "FTCLIB drivebase")
-@Disabled
+
 public class XDriveUseLib extends LinearOpMode {
 
 
