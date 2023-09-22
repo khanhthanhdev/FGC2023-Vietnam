@@ -17,8 +17,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.Subsystems.Grab;
 import org.firstinspires.ftc.teamcode.Subsystems.IMU;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+import org.firstinspires.ftc.teamcode.Subsystems.LiftUp;
 import org.firstinspires.ftc.teamcode.Subsystems.Loader;
-import org.firstinspires.ftc.teamcode.Subsystems.LoaderGate;
 import org.firstinspires.ftc.teamcode.Subsystems.OxyCascade;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.WrapBall;
@@ -36,11 +36,11 @@ public class Robot {
 
     private Telemetry telemetry;
     private final Grab grab;
-    private final LoaderGate loaderGate;
     private final Loader loader;
     private final WrapBall wrapBall;
     private final OxyCascade oxyCascade;
     private final Climber climber;
+    private final LiftUp lift;
     private final IMU imu;
 
     private final boolean testMode = false;
@@ -63,9 +63,9 @@ public class Robot {
         drivebase = new Drivebase(opMode);
         shooter = new Shooter(opMode);
         grab = new Grab(opMode);
-        loaderGate = new LoaderGate(opMode);
         loader = new Loader(opMode);
         wrapBall = new WrapBall(opMode);
+        lift = new LiftUp(opMode);
         oxyCascade = new OxyCascade(opMode);
         climber = new Climber(opMode);
         imu = new IMU(opMode);
@@ -79,7 +79,7 @@ public class Robot {
         intake.init();
         shooter.init();
         grab.init();
-        loaderGate.init();
+        lift.init();
         loader.init();
         wrapBall.init();
         oxyCascade.init();
@@ -108,6 +108,7 @@ public class Robot {
         double loaderPower = 0; // loader
         double shooterPower = 0; // shooter
         double climberPower = 0; // climber
+        double liftPower = 0; // lift up the robot
         double grabPower = 0;
         double MAX_SPEED = NORMAL_DrB;
         double leftDrB = 0;
@@ -182,6 +183,13 @@ public class Robot {
             climberPower = -CLIMBER;
         }
 
+        if (gamepad2.left_stick_y > 0.5){
+            liftPower = LIFTUP;
+        }
+        if (gamepad2.left_stick_y < -0.5){
+            liftPower = -LIFTUP;
+        }
+
         // Run the shooter at a specific speed
 
         if (gamepad2.cross) {
@@ -210,17 +218,17 @@ public class Robot {
         }
 
         // Open Gate for the ball go to shooter
-        if (gateButton && !oldGatePosition) {
-            if (gatePosition == 0) {
-                loaderGate.OpenGate(0.7);
-                gatePosition = 1;
-            } else {
-                loaderGate.OpenGate(0);
-                gatePosition = 0;
-            }
-        }
-
-        oldGatePosition = gateButton;
+//        if (gateButton && !oldGatePosition) {
+//            if (gatePosition == 0) {
+//                loaderGate.OpenGate(0.7);
+//                gatePosition = 1;
+//            } else {
+//                loaderGate.OpenGate(0);
+//                gatePosition = 0;
+//            }
+//        }
+//
+//        oldGatePosition = gateButton;
 
         // Load ball to shooter
         if (gamepad2.dpad_up) {
@@ -299,6 +307,7 @@ public class Robot {
         wrapBall.wrapSpped(wrapPower);
         oxyCascade.OxyLiftUp(OxiLiftUpPower);
         climber.climb(climberPower);
+        lift.Lift(liftPower);
         grab.grabSpeed(grabPower);
 
 
