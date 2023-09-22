@@ -42,18 +42,13 @@ public class Robot {
     private final Climber climber;
     private final LiftUp lift;
     private final IMU imu;
+    private final Grab potetiometer;
 
     private final boolean testMode = false;
     private boolean autoRotateMode = false;
     private Odometry odometry;
 
     private WheelOdometry TankOdometry;
-    double gatePosition;
-    boolean oldGatePosition;
-
-//    double grabPosition;
-//
-//    boolean oldGrabPosition;
     boolean shooterState;
     boolean loaderState;
     boolean wrapState;
@@ -66,6 +61,7 @@ public class Robot {
         loader = new Loader(opMode);
         wrapBall = new WrapBall(opMode);
         lift = new LiftUp(opMode);
+        potetiometer = new Grab(opMode);
         oxyCascade = new OxyCascade(opMode);
         climber = new Climber(opMode);
         imu = new IMU(opMode);
@@ -80,6 +76,7 @@ public class Robot {
         shooter.init();
         grab.init();
         lift.init();
+        potetiometer.init();
         loader.init();
         wrapBall.init();
         oxyCascade.init();
@@ -322,6 +319,8 @@ public class Robot {
 
 //        telemetry.addData("Grab Speed", grabPower);
 //        telemetry.addData("Climber speed", climberPower);
+        telemetry.addData("Output Vol", grab.getVol());
+        telemetry.addData("Output Angle", grab.getAngle());
         telemetry.addData("Pose x", odometry.getRobotPose().getX());
         telemetry.addData("Pose y", odometry.getRobotPose().getY());
         telemetry.addData("Heading", odometry.getRobotPose().getHeading());
