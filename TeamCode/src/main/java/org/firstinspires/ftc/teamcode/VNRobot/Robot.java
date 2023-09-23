@@ -136,7 +136,6 @@ public class Robot {
             MAX_SPEED = BOOST_DrB;
         }
 
-
         leftDrB = gamepad1.left_stick_y * MAX_SPEED;
         rightDrB = gamepad1.right_stick_y * MAX_SPEED;
 
