@@ -1,5 +1,12 @@
 package org.firstinspires.ftc.teamcode.VNRobot;
 
+//left/right_bumper: intake
+// cross/circle : shooter
+//        up/down : oxi
+//        left/right: wrap, loader
+//        square/triangle :
+//        left/right bumper: climber
+
 import static org.firstinspires.ftc.teamcode.Constants.PROJECTILE_MOTION.SINK_HEIGHT;
 import static org.firstinspires.ftc.teamcode.Constants.SPEED.*;
 import static org.firstinspires.ftc.teamcode.Constants.ODOMETRY.*;

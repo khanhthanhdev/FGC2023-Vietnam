@@ -1,5 +1,27 @@
 package org.firstinspires.ftc.teamcode.VNRobot;
 
+//left/right_bumper: intake
+//        cross/circle : shooter
+//        up/down : oxi
+//        left/right: wrap, loader
+//        square/triangle :
+//        left/right bumper: climber
+// How to config
+//        climb
+//        leftFront
+//        rightFront
+//        leftBack
+//        rightBack
+//        grab
+//        Potentiometer
+//        IMU
+//        intake
+//        lift
+//        loader
+//        oxi
+//        shooter
+//        wrap
+
 import static org.firstinspires.ftc.teamcode.Constants.PROJECTILE_MOTION.SINK_HEIGHT;
 import static org.firstinspires.ftc.teamcode.Constants.SPEED.*;
 import static org.firstinspires.ftc.teamcode.Constants.ODOMETRY.*;
@@ -309,17 +331,6 @@ public class OneGamepad {
 
         telemetry.addData("Shooter velocity", shooter.getVelocity());
         telemetry.addData("Shooter Power", shooter.getMotorPower());
-//        telemetry.addData("Intake speed", intakePower);
-//        telemetry.addData("Loader state", loaderPower);
-
-        telemetry.addData("left DrB speed", leftDrB);
-        telemetry.addData("Right DrB speed", rightDrB);
-//        telemetry.addData("Max DrB speed", MAX_SPEED);
-
-//        telemetry.addData("Grab Speed", grabPower);
-//        telemetry.addData("Climber speed", climberPower);
-        telemetry.addData("Output Vol", grab.getVol());
-        telemetry.addData("Output Angle", grab.getAngle());
         telemetry.addData("Pose x", odometry.getRobotPose().getX());
         telemetry.addData("Pose y", odometry.getRobotPose().getY());
         telemetry.addData("Heading", odometry.getRobotPose().getHeading());
